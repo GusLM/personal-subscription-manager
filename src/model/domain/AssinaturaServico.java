@@ -29,11 +29,11 @@ public class AssinaturaServico extends Assinatura {
         return beneficios;
     }
 
-    public void addBeneficio(String beneficio) {
+    public void adicionarBeneficio(String beneficio) {
         beneficios.add(beneficio);
     }
 
-    public void removeBeneficio(String beneficio) {
+    public void removerBeneficio(String beneficio) {
         beneficios.remove(beneficio);
     }
 
