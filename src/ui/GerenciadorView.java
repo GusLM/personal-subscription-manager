@@ -1,6 +1,7 @@
 package ui;
 
 import controller.GerenciadorController;
+import exceptions.OpcaoInvalidaException;
 import model.enums.CategoriaPlano;
 import model.enums.CicloPagamento;
 import util.validators.InputValidador;
@@ -25,10 +26,30 @@ public class GerenciadorView {
 
         while (rodando) {
             exibirMenu();
-            int opcao = InputValidador.lerInteiroValido(sc, "/n Selecione uma opção válida.");
+            int opcao = InputValidador.lerInteiroValido(sc, "\nSelecione uma opção válida: ");
 
             switch (opcao) {
-                case 1 -> adicionarAssinatura();
+                case 1:
+                    adicionarAssinatura();
+                    break;
+                case 2:
+                    controller.listarTodas();
+                    break;
+                case 3:
+                    removerPorNome();
+                    break;
+                case 4:
+                    calcularCustoMensalTotal();
+                    break;
+                case 5:
+                    System.out.println("Finalizando a aplicação...");
+                    rodando =  false;
+                default:
+                    try {
+                        throw new OpcaoInvalidaException("Opção inválida!");
+                    } catch (OpcaoInvalidaException e) {
+                        System.out.println("\n Erro: " + e.getMessage());
+                    }
             }
         }
     }
@@ -49,7 +70,7 @@ public class GerenciadorView {
     }
 
     private void adicionarAssinatura() {
-        System.out.println("--- ADICIONAR NOVA ASSINATURA ---");
+        System.out.println("\n--- ADICIONAR NOVA ASSINATURA ---");
         System.out.println();
         System.out.println("Qual o tipo de assinatura?");
         System.out.println("[1] Streaming");
@@ -58,7 +79,7 @@ public class GerenciadorView {
         System.out.println();
         System.out.print("Digite o tipo: ");
 
-        int tipo = InputValidador.lerInteiroValido(sc, "\nSelecione uma opção válida.");
+        int tipo = InputValidador.lerInteiroValido(sc, "\nSelecione uma opção válida: ");
 
 
         switch (tipo) {
@@ -156,6 +177,20 @@ public class GerenciadorView {
         CategoriaPlano categoria = obterCategoriaPorString();
 
         controller.adicionarAssinaturaServico(dadosComuns.nome, dadosComuns.preco, dadosComuns.ciclo, dadosComuns.data, categoria);
+    }
+
+    private void removerPorNome() {
+        System.out.println("Digite o nome da assinatura: ");
+        String nome = sc.nextLine();
+
+        controller.removerPorNome(nome);
+
+        System.out.println("A assinatura \"" + nome + "\" foi removida!");
+    }
+
+    private void calcularCustoMensalTotal() {
+        System.out.print("Salto total: ");
+        controller.calcularCustoMensalTotal();
     }
 
     record DadosComunsAssinatura(String nome, BigDecimal preco, CicloPagamento ciclo, LocalDate data) {}
