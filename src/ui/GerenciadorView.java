@@ -27,6 +27,7 @@ public class GerenciadorView {
         while (rodando) {
             exibirMenu();
             int opcao = InputValidador.lerInteiroValido(sc, "\nSelecione uma opção válida: ");
+            sc.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -76,10 +77,9 @@ public class GerenciadorView {
         System.out.println("[1] Streaming");
         System.out.println("[2] Software");
         System.out.println("[3] Serviço (Ex: Academia)");
-        System.out.println();
-        System.out.print("Digite o tipo: ");
 
         int tipo = InputValidador.lerInteiroValido(sc, "\nSelecione uma opção válida: ");
+        sc.nextLine();
 
 
         switch (tipo) {
@@ -146,6 +146,7 @@ public class GerenciadorView {
 
     private void processarAdicaoStreaming() {
         System.out.println("\n--- DADOS DA ASSINATURA DE STREAMING ---");
+        System.out.println();
         DadosComunsAssinatura dadosComuns = coletarDadosComuns();
 
         System.out.print("Qualidade de vídeo (HD/4K): ");
@@ -153,6 +154,8 @@ public class GerenciadorView {
 
         System.out.print("Número de telas: ");
         int numeroTelas = Integer.parseInt(sc.nextLine());
+
+        System.out.println();
 
         controller.adicionarAssinaturaStreaming(dadosComuns.nome, dadosComuns.preco, dadosComuns.ciclo, dadosComuns.data, qualidadeVideo, numeroTelas);
     }
